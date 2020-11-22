@@ -27,7 +27,7 @@ Wrapper to internal solvers.}
 \details{
 {The argument \code{control} must be a named list of
 \itemize{
-\item \code{n} number of variates in simulation, default 1000}
+\item \code{n} number of variates in simulation, default 1000
 \item \code{method} either "em" for Euler-Maruyama or "rk2" for Runge-Kutta order 2
-\item \code{engine} either "r" or "cpp"}
+\item \code{engine} either "r" or "cpp"}}
 }
