@@ -15,7 +15,7 @@
 #' @export samplePathIto
 samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, method = "em", engine = "cpp"))
 {
-  if(all.equal(names(control), c("n", "method", "engine")))
+  if(!all.equal(names(control), c("n", "method", "engine")))
   {
     stop("control must be a named list")
   }
