@@ -15,13 +15,14 @@
 #' @export samplePathIto
 samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, method = "em", engine = "cpp"))
 {
-  n <- control$n
-  method <- control$method
-  engine <- control$engine
-  if(names(control) != c("n", "method", "engine"))
+  if(all.equal(names(control), c("n", "method", "engine")))
   {
     stop("control must be a named list")
   }
+  n <- control$n
+  method <- control$method
+  engine <- control$engine
+
 
   if(method != "rk2" && method != "em")
   {
@@ -50,7 +51,7 @@ samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, meth
     )
   } else if(engine == "cpp")
   {
-    if(!is.vector(dynamics))
+    if(!is.numeric(dynamics))
     {
       stop("dynamics must be a vector of drift and volatility for cpp engine")
     }
