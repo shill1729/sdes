@@ -41,7 +41,7 @@ samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, meth
   }
   if(engine == "r")
   {
-    s <- do.call(what = paste("sde_", engine, sep =""),
+    s <- do.call(what = paste("sde_", method, sep =""),
                  list(x0 = region[1],
                       t = region[2],
                       drift = dynamics[[1]],
