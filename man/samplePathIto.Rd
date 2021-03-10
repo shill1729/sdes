@@ -2,12 +2,12 @@
 % Please edit documentation in R/samplePathWrappers.R
 \name{samplePathIto}
 \alias{samplePathIto}
-\title{Simulate sample path of Ito-process}
+\title{Simulate sample path of Ito-process by solving a SDE}
 \usage{
 samplePathIto(
   region,
   dynamics = NULL,
-  control = list(n = 1000, method = "em", engine = "cpp")
+  control = list(n = 1000, method = "rk2", engine = "r")
 )
 }
 \arguments{

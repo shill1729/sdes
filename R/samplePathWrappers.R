@@ -1,4 +1,4 @@
-#' Simulate sample path of Ito-process
+#' Simulate sample path of Ito-process by solving a SDE
 #'
 #' @param region initial point and length of time as a vector
 #' @param dynamics list of drift and volatility functions of \code{(t, x)}
@@ -13,7 +13,7 @@
 #' \item \code{engine} either "r" or "cpp"}}
 #' @return data.frame of time variable and space variable
 #' @export samplePathIto
-samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, method = "em", engine = "cpp"))
+samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, method = "rk2", engine = "r"))
 {
   if(!all.equal(names(control), c("n", "method", "engine")))
   {
@@ -68,6 +68,39 @@ samplePathIto <- function(region, dynamics = NULL, control = list(n = 1000, meth
                  )
   }
   return(s)
+}
+
+#' Simulate a sample-path of an exponential Ito-Levy process by solving a SDE with jumps
+#'
+#' @param region vector of initial price and time-horizon
+#' @param dynamics list of drift and volatility coefficient functions
+#' @param jumps the jump-specification list
+#' @param n number of variates to discretize time by
+#'
+#' @description {Solve an SDE with jumps via the Euler-Maruyama discretization and hence
+#' simulate a sample-path of the stochastic process.}
+#' @details { The SDE solved is for the log-dynamics and
+#' then the process is exponentiated and returned. Therefore the drift and volatility coefficents passed
+#' must be those figuring in the SDE (without jumps for the sake of convenience, here)
+#' \eqn{dS_t=\mu(t, S_t) S_t dt+\sigma(t, S_t) S_t dB_t}.
+#'
+#' Further, the argument \code{jumps} must be a named list containing
+#' \itemize{
+#' \item \code{lambda} the mean-rate of jumps function as a function of \code{(t, x)}.
+#' \item \code{distr} the name of the distribution of the (log-)jump-sizes
+#' \item \code{param} a named list of the parameters of the distribution matching
+#' the names and order of the arguments in e.g. \code{runif}, etc.}
+#' }
+#' @return data.frame of time and price
+#' @export samplePathItoLevy
+samplePathItoLevy <- function(region, dynamics, jumps, n)
+{
+  spot <- region[1]
+  t <- region[2]
+  mu <- dynamics[[1]]
+  volat <- dynamics[[2]]
+  w <- jump_sde_em(spot, t, mu, volat, jumps, n)
+  return(w)
 }
 
 #' Solve arbitrary first order SDE systems

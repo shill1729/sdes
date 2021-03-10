@@ -6,9 +6,11 @@ Date: 2020-11-21
 Author: S. Hill
 Maintainer: S. Hill <52792611+shill1729@users.noreply.github.com>
 Description: Solve stochastic differential equations via Euler-Maruyama
-        and Runge-Kutta2 methods.
+        and Runge-Kutta2 methods. Three solvers are included: for continuous
+        paths, paths with jumps, and systems of SDEs.
 License: GPL (>= 2)
-Imports: 
+Imports:
+    findistr,
     Rcpp
 LinkingTo: 
     Rcpp

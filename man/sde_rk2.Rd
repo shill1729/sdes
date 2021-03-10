@@ -21,5 +21,5 @@ sde_rk2(x0, t, drift, volat, n = 50)
 data.frame
 }
 \description{
-{The stochastic Runge-Kutta for SDEs. See wikipedia for details}
+{The stochastic Runge-Kutta for SDEs. See wikipedia for mathematical details}
 }
