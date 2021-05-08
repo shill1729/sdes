@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Solvers in R and c++ for SDEs via Euler-Maruyama and Runge-Kutta methods.
+Solvers in R for SDEs via Euler-Maruyama and Runge-Kutta methods.
 
 ## Installation
 
@@ -13,7 +13,53 @@ You can install the current GitHub version via devtools
 ``` r
 devtools::install_github("shill1729/sdes")
 ```
+## Multiple models
+The following models are currently available: geometric Brownian motion, Merton's jump diffusion, Heston stochastic volatility, and log-normal mixture diffusion
+```r
+# Simulating multiple models from the same point
+spot <- 100
+maturity <- 1
+# Number of time-steps
+n <- 5000
+# Initial spot for Heston
+v0 <- 0.5
+# Mixture components
+probs <- c(0.39, 0.01, 0.6)
+mus <- c(0.02, -0.5, 0.1)
+sigmas <- c(0.1, 1.5, 0.5)
+# Drift and volatility for GBM and Merton
+mu <- 0.9
+volat <- 0.5
+# Merton parameters
+lambda <- 30
+jm <- 0
+jv <- 0.15
+# Heston parameters: correlation, mean-reversion speed
+# reversion level, vol-of-vol
+rho <- -0.2
+kappa <- 1.1
+theta <- 0.6
+xi <- sqrt(2*kappa*theta)/1.2
+# Gathering together all the models
+gbm <- list(name = "gbm", param = c(mu, volat))
+merton <- list(name = "merton", param = c(mu, volat, lambda, jm, jv))
+heston <- list(name = "heston", param = c(mu, rho, kappa, theta, xi, v0))
+mixture <- list(name = "mixture", param = rbind(probs, mus, sigmas))
+models <- list(gbm, merton, heston, mixture)
+paths <- lapply(models, function(X) sdeSolve(spot, maturity, X, n, method = "em"))
+par(mfrow = c(1, 1))
+logRets <- lapply(paths, function(x) log(x$X/spot))
+ub <- max(unlist(logRets))
+lb <- min(unlist(logRets))
+plot(paths[[1]]$t, logRets[[1]], type = "l", ylim = c(lb, ub))
+for(i in 2:4)
+{
+  lines(paths[[i]]$t, logRets[[i]], col = i)
+}
+legend(x = "topleft", legend = c("gbm", "merton", "heston", "mixture"),
+       col = c("black", "red", "green", "blue"), lty = 1, cex = 0.6)
 
+```
 
 ## Solving an SDE with jumps
 We can simulate sample-paths of geometric Ito-Levy processes

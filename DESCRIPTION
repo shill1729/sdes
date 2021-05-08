@@ -10,10 +10,6 @@ Description: Solve stochastic differential equations via Euler-Maruyama
         paths, paths with jumps, and systems of SDEs.
 License: GPL (>= 2)
 Imports:
-    findistr,
-    Rcpp
-LinkingTo: 
-    Rcpp
-SystemRequirements: C++11
+    findistr
 RoxygenNote: 7.1.1
 Encoding: UTF-8

@@ -105,3 +105,5 @@ jump_sde_em <- function(spot, t, mu, volat, jumps = NULL, n = 1000, M = 20000)
   return(X)
 }
 
+
+

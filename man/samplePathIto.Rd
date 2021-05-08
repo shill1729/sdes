@@ -4,18 +4,17 @@
 \alias{samplePathIto}
 \title{Simulate sample path of Ito-process by solving a SDE}
 \usage{
-samplePathIto(
-  region,
-  dynamics = NULL,
-  control = list(n = 1000, method = "rk2", engine = "r")
-)
+samplePathIto(region, dynamics = NULL, n = 1000, method = "rk2")
 }
 \arguments{
 \item{region}{initial point and length of time as a vector}
 
-\item{dynamics}{list of drift and volatility functions of \code{(t, x)}}
+\item{dynamics}{list of drift and volatility functions of \code{(t, x)}, use \code{NULL}
+for Brownian motion default dynamics}
 
-\item{control}{list of variates \code{n}, method and engine}
+\item{n}{number of variates}
+
+\item{method}{either "em" for Euler-Maruyama scheme or rk2 for Runge-Kutta scheme of order 2.}
 }
 \value{
 data.frame of time variable and space variable
@@ -23,11 +22,4 @@ data.frame of time variable and space variable
 \description{
 {Simulate a sample path of a solution to an SDE.
 Wrapper to internal solvers.}
-}
-\details{
-{The argument \code{control} must be a named list of
-\itemize{
-\item \code{n} number of variates in simulation, default 1000
-\item \code{method} either "em" for Euler-Maruyama or "rk2" for Runge-Kutta order 2
-\item \code{engine} either "r" or "cpp"}}
 }
