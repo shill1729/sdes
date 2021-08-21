@@ -5,9 +5,10 @@ Version: 1.0
 Date: 2020-11-21
 Author: S. Hill
 Maintainer: S. Hill <52792611+shill1729@users.noreply.github.com>
-Description: Solve stochastic differential equations via Euler-Maruyama
-        and Runge-Kutta2 methods. Three solvers are included: for continuous
-        paths, paths with jumps, and systems of SDEs.
+Description: Solve stochastic differential equations via Euler-Maruyama, Milstein,
+        and Runge-Kutta2 methods. The EM scheme is implemented for Ito processes, exponential
+         Ito-Levy processes, two-dimensional systems of correlated SDEs, and finally arbitrary systems
+         of independent SDEs or SDEs all driven by the same Brownian motion.
 License: GPL (>= 2)
 Imports:
     findistr
