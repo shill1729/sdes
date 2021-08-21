@@ -14,7 +14,9 @@ You can install the current GitHub version via devtools
 ``` r
 devtools::install_github("shill1729/sdes")
 ```
-## Examples of SDEs
+
+### Examples
+## SDEs for stock-prices
 Here is an example simulating a GBM, OU process, Merton jump diffusion,
 displaced Kou jump diffusion, mixture diffusion, and Heston stochastic volatility model for price dynamics:
 ```r
@@ -63,3 +65,37 @@ sde_mixture(x0, tt, mixture, n)
 sde_heston(x0, v0, tt, heston, n)
 ```
 ![StockModels](examplePlots/stockmodels.jpeg)
+
+## Noisy harmonic oscillator
+```r
+#=========================================================
+# Noisy harmonic oscillator
+#=========================================================
+library(sdes)
+n <- 4000
+tn <- 50
+q <- 0.2
+omega <- 1
+volat <- 0.5
+IC <- list(x = 1, v = 1)
+# System description:
+# simple harmonic restoring force:
+# -omega^2 x
+# damping force
+# -2q omega v
+# random white noise proportional to x
+drifts <- list(function(t, x, v) v,
+               function(t, x, v) -2*q*omega*v-(omega^2)*x
+)
+diffusions <- list(function(t, x, v) 0,
+                   function(t, x, v) volat*x
+)
+# Numerically solve with Euler-Maruyama
+s <- sdes::sde_system(IC, 0, tn, drifts, diffusions, FALSE, n)
+# We can see the phase-plane tends to the origin
+# for most values of sigma=volat
+par(mfrow = c(1, 1))
+plot(s$x, s$v, type = "l", main = "Phase-plane")
+```
+![NoisyOscillator](examplePlots/noisyoscillator.jpeg)
+
