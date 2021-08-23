@@ -207,11 +207,12 @@ sde_unijumps <- function(x0, tt, param, n = 1000)
 #' @export sde_heston
 sde_heston <- function(s0, v0, tt, param, n = 1000)
 {
-  mu <- param[1]
-  rho <- param[2]
-  kappa <- param[3]
-  theta <- param[4]
-  xi <- param[5]
+
+  kappa <- param[1]
+  theta <- param[2]
+  xi <- param[3]
+  mu <- param[4]
+  rho <- param[5]
   drifts <- list(function(t, s, v) mu*s,
                  function(t, s, v) kappa*(theta-v)
                  )
